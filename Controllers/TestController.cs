@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Router("test/")]
-public class TestController : ContorlleBase
+[Route("test/")]
+public class TestController : ControllerBase
 {
     [HttpGet]
     public string Get()
