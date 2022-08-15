@@ -32,10 +32,9 @@ public class CpfService
 
         if(cpf9digits.Length != 11)
         {
-        return false;
+            return false;
         }
         cpf9digits = cpf9digits.Trim();
-        
         soma = 0;
 
         for(int i = 0; i < 9; i++)
@@ -51,14 +50,25 @@ public class CpfService
             {
                 resto = 11 - resto ;
             }
-            digito = resto.ToString();
-            cpf = cpf + digito;
-            soma = 0;
+                digito = resto.ToString();
+                cpf = cpf + digito;
+                soma = 0;
         }
         for(int i = 0; i < 10;i++)
         {
             soma += int.Parse(cpf.ToString())*multiplicador2[i];
-            
+            resto = soma % 11;
+            if(resto > 2)
+            {
+                resto = 0;
+            }
+            else
+            {
+                resto = 11 - resto ;
+            }      
         }
+        digito = digito + resto.ToString();
+
+        return cpf.EndsWith(digito);    
     }
 }
