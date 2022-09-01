@@ -14,10 +14,10 @@ builder.Services.AddSingleton<CpfService>(p =>
     return service;
 });
 
-builder.Services.AddSingleton<CEPService>(p =>
+builder.Services.AddSingleton<CepService>(p =>
 {
     string baseUrl = "https://viacep.com.br/ws/{cep}/json/";
-    CEPService service = new CEPService(baseUrl);
+    CepService service = new CepService(baseUrl);
     return service;
 });
 

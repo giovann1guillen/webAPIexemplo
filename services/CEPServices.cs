@@ -2,12 +2,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-public class CEPService
+public class CepService
 {
     private HttpClient client = null;
     private string baseUrl = null;
 
-    public CEPService(string service)
+    public CepService(string service)
     {
         client = new HttpClient();
         baseUrl = service;

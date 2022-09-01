@@ -6,7 +6,7 @@ public class CEPController : ControllerBase
 {
     [HttpGet("query/{cep}")]
     public async Task<object> QueryCEP(
-        [FromServices]CEPService cepService,
+        [FromServices]CepService cepService,
         string cep)
     {
         try
