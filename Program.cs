@@ -5,18 +5,35 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddSingleton<CpfService>(p =>
 {
     int seed = DateTime.Now.Millisecond;
     CpfService service = new CpfService(seed);
     return service;
 });
+
+builder.Services.AddSingleton<CEPService>(p =>
+{
+    string baseUrl = "https://viacep.com.br/ws/{cep}/json/";
+    CEPService service = new CEPService(baseUrl);
+    return service;
+});
+
+builder.Services.AddScoped<UserService>(p =>
+{
+    UserService service = new UserService();
+    return service;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-   
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

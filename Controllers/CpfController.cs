@@ -5,15 +5,59 @@ using Microsoft.AspNetCore.Mvc;
 public class CpfController : ControllerBase
 {
     [HttpGet("validate/{cpf}")]
-    public object Validate([FromServices]CpfService cpfService, string cpf)
+    public object Validate(
+        [FromServices]CpfService cpfService,
+        string cpf)
     {
-        return cpfService.getValidationDigits(cpf);
+        try
+        {
+            if (cpf == null)
+            {
+                return new {
+                    Status = "Fail",
+                    Message = "Missing data 'cpf'"
+                };
+            }
+
+            cpf = cpf
+                .Replace(".", "")
+                .Replace("-", "");
+            cpf = cpf.Trim();
+            
+            bool hasOnlyNumbers = cpf
+                .All(c => '0' <= c && c <= '9');
+            if (cpf.Length != 11 || !hasOnlyNumbers)
+            {
+                return new {
+                    Status = "Success",
+                    Message = "The CPF was validated",
+                    Data = false
+                };
+            }
+            
+            return new {
+                Status = "Success",
+                Message = "The CPF was validated",
+                Data = cpfService.Validate(cpf)
+            };
+        }
+        catch
+        {
+            return new {
+                Status = "Fail",
+                Message = "Unknow error"
+            };
+        }
     }
 
     [HttpGet("generate")]
-    public object Generate([FromServices]CpfService cpfService
+    public object Generate(
+        [FromServices]CpfService cpfService
     )
     {
-        throw new NotImplementedException();
+        return new {
+            Status = "Success",
+            Cpf = cpfService.Generate()
+        };
     }
 }
